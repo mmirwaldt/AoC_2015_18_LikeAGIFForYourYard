@@ -14,17 +14,25 @@ public abstract class AbstractLightBoard implements LightBoard {
         final String[] rows = initialBoardAsString.split("\n");
         for (int rowIndex = 0; rowIndex < site; rowIndex++) {
             final String row = rows[rowIndex];
-            for (int colIndex = 0; colIndex < site; colIndex++) {
-                final String col = row.substring(colIndex, colIndex + 1);
-                if (col.equals(OFF.getSign())) {
-                    setLight(rowIndex, colIndex, OFF);
-                } else if (col.equals(ON.getSign())) {
-                    setLight(rowIndex, colIndex, ON);
-                } else {
-                    throw new IllegalArgumentException("Cannot handle '" + col + "' at row "
-                            + rowIndex + " and col " + colIndex + ".");
-                }
-            }
+            initRow(rowIndex, row);
+        }
+    }
+
+    private void initRow(int rowIndex, String row) {
+        for (int colIndex = 0; colIndex < site; colIndex++) {
+            final String col = row.substring(colIndex, colIndex + 1);
+            initCell(rowIndex, colIndex, col);
+        }
+    }
+
+    private void initCell(int rowIndex, int colIndex, String col) {
+        if (col.equals(OFF.getSign())) {
+            setLight(rowIndex, colIndex, OFF);
+        } else if (col.equals(ON.getSign())) {
+            setLight(rowIndex, colIndex, ON);
+        } else {
+            throw new IllegalArgumentException("Cannot handle '" + col + "' at row "
+                    + rowIndex + " and col " + colIndex + ".");
         }
     }
 
