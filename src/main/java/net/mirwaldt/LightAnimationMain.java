@@ -5,19 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static net.mirwaldt.LightState.readBoardFromString;
-
 public class LightAnimationMain {
     public static void main(String[] args) throws IOException {
         final String input = Files.readString(Path.of("input.txt"), StandardCharsets.US_ASCII);
 
-        final DefaultLightAnimation partOneLightAnimation = new DefaultLightAnimation();
-        partOneLightAnimation.init(readBoardFromString(input, 100), 100);
+//        final LightBoardFactory lightBoardFactory = new TwoDimensionalArrayLightBoardFactory();
+        final LightBoardFactory lightBoardFactory = new BitSetLightBoardFactory();
+
+        final PartOneLightAnimation partOneLightAnimation = new PartOneLightAnimation(lightBoardFactory, 100, input);
         System.out.println(partOneLightAnimation.animateAndCount(100)); // result: 1061
 
-
-        final CornersAlwaysOnLightAnimation partTwoLightAnimation = new CornersAlwaysOnLightAnimation();
-        partTwoLightAnimation.init(readBoardFromString(input, 100), 100);
+        final PartTwoLightAnimation partTwoLightAnimation = new PartTwoLightAnimation(lightBoardFactory, 100, input);
         System.out.println(partTwoLightAnimation.animateAndCount(100)); // result: 1006
     }
 }

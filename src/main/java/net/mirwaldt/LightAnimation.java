@@ -1,10 +1,8 @@
 package net.mirwaldt;
 
-public interface LightAnimation<BoardType> {
-    void init(BoardType initialBoard, int site);
-    BoardType animate(int steps);
-    long count(BoardType board);
+public interface LightAnimation {
+    LightBoard animate(int steps);
     default long animateAndCount(int steps) {
-        return count(animate(steps));
+        return animate(steps).countLightsOn();
     }
 }
