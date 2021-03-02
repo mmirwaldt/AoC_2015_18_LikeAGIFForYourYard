@@ -11,8 +11,7 @@ import static net.mirwaldt.LightState.boardToString;
 import static net.mirwaldt.LightState.readBoardFromString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DefaultLightAnimationTest {
-
+public class CornersAlwaysOnLightAnimationTest {
     public static final int SITE = 6;
 
     @Test
@@ -35,17 +34,21 @@ public class DefaultLightAnimationTest {
         test_animate_nSteps(4);
     }
 
+    @Test
+    void test_animate_fiveSteps() throws IOException {
+        test_animate_nSteps(5);
+    }
+
     private String loadBoardAsStringFromFile(String fileName) throws IOException {
         return Files.readString(Path.of(fileName), StandardCharsets.US_ASCII);
     }
 
     void test_animate_nSteps(int steps) throws IOException {
-        final DefaultLightAnimation defaultLightAnimation = new DefaultLightAnimation();
-        final String initialBoardAsString = loadBoardAsStringFromFile("0.txt");
+        final CornersAlwaysOnLightAnimation defaultLightAnimation = new CornersAlwaysOnLightAnimation();
+        final String initialBoardAsString = loadBoardAsStringFromFile("_0.txt");
         defaultLightAnimation.init(readBoardFromString(initialBoardAsString, SITE), SITE);
-        final String boardAfterOneStepAsString = loadBoardAsStringFromFile(steps + ".txt");
+        final String boardAfterOneStepAsString = loadBoardAsStringFromFile("_" + steps + ".txt");
         final LightState[][] boardAfterOneStep = readBoardFromString(boardAfterOneStepAsString, SITE);
         assertEquals(boardToString(boardAfterOneStep, SITE), boardToString(defaultLightAnimation.animate(steps), SITE));
     }
-
 }
