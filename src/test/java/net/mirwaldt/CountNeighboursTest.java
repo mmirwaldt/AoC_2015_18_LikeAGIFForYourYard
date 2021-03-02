@@ -1,16 +1,29 @@
 package net.mirwaldt;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static net.mirwaldt.LightState.*;
+import java.util.stream.Stream;
+
+import static net.mirwaldt.LightState.OFF;
+import static net.mirwaldt.LightState.ON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CountNeighboursTest {
+    private static Stream<Arguments> lightBoardFactory() {
+        return Stream.of(Arguments.of(new TwoDimensionalArrayLightBoardFactory()),
+                Arguments.of(new BitSetLightBoardFactory()));
+    }
 
-    private final LightBoardFactory lightBoardFactory = new TwoDimensionalArrayLightBoardFactory();
-
-    @Test
-    void test_corners() {
+    @ParameterizedTest
+    @MethodSource("lightBoardFactory")
+    void test_corners(LightBoardFactory lightBoardFactory) {
+        /*
+        Bits:
+        01
+        23
+        */
         for (int allBits = 0; allBits < 16; allBits++) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (int selectedBitIndex = 0; selectedBitIndex < 4; selectedBitIndex++) {
@@ -31,22 +44,33 @@ public class CountNeighboursTest {
             final PartOneLightAnimation partOneLightAnimation = new PartOneLightAnimation(
                     lightBoardFactory, 2, boardAsString);
 
-            for (int selectedBitIndex = 0; selectedBitIndex < 4; selectedBitIndex++) {
-                final int row = (2 & selectedBitIndex) >> 1;
-                final int col = 1 & selectedBitIndex;
+            final int leftTopBitMask = getBitMaskForBitIndexes(1, 2, 3);
+            final int leftTopBitCount = Integer.bitCount(allBits & leftTopBitMask);
+            assertEquals(leftTopBitCount, partOneLightAnimation.countNeighboursOn(0, 0));
 
-                final int selectedBit = 1 << selectedBitIndex;
-                final int bitMask = ~selectedBit;
-                final int restBits = allBits & bitMask;
-                final int bitCount = Integer.bitCount(restBits);
+            final int rightTopBitMask = getBitMaskForBitIndexes(0, 2, 3);
+            final int rightTopBitCount = Integer.bitCount(allBits & rightTopBitMask);
+            assertEquals(rightTopBitCount, partOneLightAnimation.countNeighboursOn(0, 1));
 
-                assertEquals(bitCount, partOneLightAnimation.countNeighboursOn(row, col));
-            }
+            final int leftBottomBitMask = getBitMaskForBitIndexes(0, 1, 3);
+            final int leftBottomBitCount = Integer.bitCount(allBits & leftBottomBitMask);
+            assertEquals(leftBottomBitCount, partOneLightAnimation.countNeighboursOn(1, 0));
+
+            final int rightBottomBitMask = getBitMaskForBitIndexes(0, 1, 2);
+            final int rightBottomBitCount = Integer.bitCount(allBits & rightBottomBitMask);
+            assertEquals(rightBottomBitCount, partOneLightAnimation.countNeighboursOn(1, 1));
         }
     }
 
-    @Test
-    void test_middleAndBorders() {
+    @ParameterizedTest
+    @MethodSource("lightBoardFactory")
+    void test_middleAndBorders(LightBoardFactory lightBoardFactory) {
+        /*
+        Bits:
+        012
+        345
+        678
+         */
         for (int allBits = 0; allBits < 512; allBits++) {
             final StringBuilder stringBuilder = new StringBuilder();
             for (int selectedBitIndex = 0; selectedBitIndex < 9; selectedBitIndex++) {
