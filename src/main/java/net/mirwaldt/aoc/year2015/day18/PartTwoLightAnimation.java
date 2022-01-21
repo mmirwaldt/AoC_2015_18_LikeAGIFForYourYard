@@ -1,6 +1,4 @@
-package net.mirwaldt;
-
-import static net.mirwaldt.LightState.ON;
+package net.mirwaldt.aoc.year2015.day18;
 
 public class PartTwoLightAnimation implements LightAnimation {
     private final PartOneLightAnimation partOneLightAnimation;
@@ -11,10 +9,10 @@ public class PartTwoLightAnimation implements LightAnimation {
 
     private void switchOnCorners() {
         final LightBoard lightBoard = partOneLightAnimation.getCurrentBoard();
-        lightBoard.setLight(0, 0, ON);
-        lightBoard.setLight(lightBoard.getSite() - 1, 0, ON);
-        lightBoard.setLight(0, lightBoard.getSite() - 1, ON);
-        lightBoard.setLight(lightBoard.getSite() - 1, lightBoard.getSite() - 1, ON);
+        lightBoard.setLight(0, 0, LightState.ON);
+        lightBoard.setLight(lightBoard.getSite() - 1, 0, LightState.ON);
+        lightBoard.setLight(0, lightBoard.getSite() - 1, LightState.ON);
+        lightBoard.setLight(lightBoard.getSite() - 1, lightBoard.getSite() - 1, LightState.ON);
     }
 
     @Override

@@ -1,8 +1,7 @@
-package net.mirwaldt;
+package net.mirwaldt.aoc.year2015.day18;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static net.mirwaldt.LightState.ON;
 
 public abstract class AbstractLightAnimation implements LightAnimation {
     protected final LightBoard leftBoard;
@@ -36,7 +35,7 @@ public abstract class AbstractLightAnimation implements LightAnimation {
         for (int row = max(0, rowIndex - 1); row < min(currentBoard.getSite(), rowIndex + 2); row++) {
             for (int col = max(0, colIndex - 1); col < min(currentBoard.getSite(), colIndex + 2); col++) {
                 if(!isCenter(rowIndex, colIndex, row, col)
-                        && currentBoard.getLight(row, col).equals(ON)) {
+                        && currentBoard.getLight(row, col).equals(LightState.ON)) {
                     count++;
                 }
             }

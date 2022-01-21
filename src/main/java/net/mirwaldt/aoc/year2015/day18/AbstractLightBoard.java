@@ -1,7 +1,4 @@
-package net.mirwaldt;
-
-import static net.mirwaldt.LightState.OFF;
-import static net.mirwaldt.LightState.ON;
+package net.mirwaldt.aoc.year2015.day18;
 
 public abstract class AbstractLightBoard implements LightBoard {
     protected final int site;
@@ -26,10 +23,10 @@ public abstract class AbstractLightBoard implements LightBoard {
     }
 
     private void initCell(int rowIndex, int colIndex, String col) {
-        if (col.equals(OFF.getSign())) {
-            setLight(rowIndex, colIndex, OFF);
-        } else if (col.equals(ON.getSign())) {
-            setLight(rowIndex, colIndex, ON);
+        if (col.equals(LightState.OFF.getSign())) {
+            setLight(rowIndex, colIndex, LightState.OFF);
+        } else if (col.equals(LightState.ON.getSign())) {
+            setLight(rowIndex, colIndex, LightState.ON);
         } else {
             throw new IllegalArgumentException("Cannot handle '" + col + "' at row "
                     + rowIndex + " and col " + colIndex + ".");
@@ -39,7 +36,7 @@ public abstract class AbstractLightBoard implements LightBoard {
     protected void init() {
         for (int row = 0; row < getSite(); row++) {
             for (int col = 0; col < getSite(); col++) {
-                setLight(row, col, OFF);
+                setLight(row, col, LightState.OFF);
             }
         }
     }
@@ -54,7 +51,7 @@ public abstract class AbstractLightBoard implements LightBoard {
         int count = 0;
         for (int row = 0; row < getSite(); row++) {
             for (int col = 0; col < getSite(); col++) {
-                if(getLight(row, col).equals(ON)) {
+                if(getLight(row, col).equals(LightState.ON)) {
                     count++;
                 }
             }

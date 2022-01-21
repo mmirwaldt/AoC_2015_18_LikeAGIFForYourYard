@@ -1,9 +1,6 @@
-package net.mirwaldt;
+package net.mirwaldt.aoc.year2015.day18;
 
 import java.util.BitSet;
-
-import static net.mirwaldt.LightState.OFF;
-import static net.mirwaldt.LightState.ON;
 
 public class BitSetLightBoard extends AbstractLightBoard {
     private final BitSet bits;
@@ -20,13 +17,13 @@ public class BitSetLightBoard extends AbstractLightBoard {
 
     @Override
     public LightState getLight(int row, int col) {
-        return (bits.get(calculateBitIndex(row, col))) ? ON : OFF;
+        return (bits.get(calculateBitIndex(row, col))) ? LightState.ON : LightState.OFF;
     }
 
     @Override
     public void setLight(int row, int col, LightState lightState) {
         int bitIndex = calculateBitIndex(row, col);
-        if(lightState.equals(ON)) {
+        if(lightState.equals(LightState.ON)) {
             bits.set(bitIndex);
         } else {
             bits.clear(bitIndex);

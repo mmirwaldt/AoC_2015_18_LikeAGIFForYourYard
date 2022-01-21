@@ -1,7 +1,7 @@
-package net.mirwaldt;
+package net.mirwaldt.aoc.year2015.day18;
 
-import static net.mirwaldt.LightState.OFF;
-import static net.mirwaldt.LightState.ON;
+import static net.mirwaldt.aoc.year2015.day18.LightState.OFF;
+import static net.mirwaldt.aoc.year2015.day18.LightState.ON;
 
 public class PartOneLightAnimation extends AbstractLightAnimation {
 
